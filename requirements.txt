@@ -2,5 +2,6 @@ boto3
 aioboto3
 aiobotocore
 tenacity
-aiofiles
-aiocsv
+aiofile
+click
+pyyaml

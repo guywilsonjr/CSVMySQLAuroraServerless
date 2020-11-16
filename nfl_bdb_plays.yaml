@@ -1,0 +1,32 @@
+FILE_PATHS:
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/plays.csv'
+SCHEMA_NAME: 'bdb'
+TABLE_NAME: 'plays'
+COL_TYPES:
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - VARCHAR(1023)
+  - INT
+  - INT
+  - INT
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - INT
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - INT
+  - INT
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - INT
+  - INT
+  - VARCHAR(255)
+  - INT
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - VARCHAR(255)
+  - INT
+  - INT
+  - DOUBLE
+  - BOOL

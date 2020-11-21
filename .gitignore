@@ -1,4 +1,9 @@
 # Byte-compiled / optimized / DLL files
+*.sql
+*.cfg
+lib64
+bin/
+.idea/
 *.yaml
 __pycache__/
 *.py[cod]

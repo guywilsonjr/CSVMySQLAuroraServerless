@@ -5,6 +5,7 @@ import logging
 import yaml
 import asyncio
 import aioboto3
+import click
 
 from tenacity import retry, retry_if_exception, stop_after_attempt, before_log, wait_exponential, after_log
 import time
@@ -94,7 +95,6 @@ def get_create_table_query(column_names, column_types, schema, table_name, conf)
 
 
 def multi_process_files(file_paths, conf):
-    global create_table_query
     create_table_query = [sync_process_files(file_path, conf)[1] for file_path in file_paths][0]
     results = [sync_process_files(file_path, conf)[0] for file_path in file_paths]
     flattened_lines = [line for line_list in results for line in line_list]
@@ -163,10 +163,13 @@ def create_insert_tuples(num_cores, all_lines, schema, table_name):
         qlist_procs = p.starmap(create_insert_queries, line_proc_args)
         return qlist_procs
 
+async def run_all_queries(queries):
+    async with aioboto3.client('rds-data', region_name='us-west-2') as client:
+        return await asyncio.gather(*[run_query(query, client) for query in queries])
 
 def sync_run(conf: dict):
     start_time = time.time()
-    file_paths = conf['FILE_PATHS'][9:]
+    file_paths = conf['FILE_PATHS']
     schema = conf['SCHEMA_NAME']
     table_name = conf['TABLE_NAME']
     num_cores = mp.cpu_count()

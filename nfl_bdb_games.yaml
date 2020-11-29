@@ -1,0 +1,12 @@
+FILE_PATHS:
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/games.csv'
+SCHEMA_NAME: 'bdb'
+TABLE_NAME: 'games'
+PRIMARY_KEY: 'gameId'
+COL_TYPES:
+  - VARCHAR(64)
+  - VARCHAR(32)
+  - VARCHAR(32)
+  - VARCHAR(3)
+  - VARCHAR(3)
+  - INT

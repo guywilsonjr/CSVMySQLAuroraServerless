@@ -1,0 +1,63 @@
+FILE_PATHS:
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week1.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week2.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week3.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week4.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week5.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week6.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week7.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week8.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week9.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week10.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week11.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week12.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week13.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week14.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week15.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week16.csv'
+  - '/home/guy/Downloads/nfl-big-data-bowl-2021/week17.csv'
+PRIMARY_KEY: 'gameId,playId,nflId,frameId'
+SCHEMA_NAME: 'bdb'
+TABLE_NAME: 'play_data'
+DATE_FORMAT: 'play_data'
+COL_NAMES:
+  - time
+  - x
+  - y
+  - s
+  - a
+  - dis
+  - o
+  - dir
+  - event
+  - nflId
+  - displayName
+  - jerseyNumber
+  - position
+  - frameId
+  - team
+  - gameId
+  - playId
+  - playDirection
+  - route
+
+COL_TYPES:
+  - CHAR(32)
+  - FLOAT
+  - FLOAT
+  - FLOAT
+  - FLOAT
+  - FLOAT
+  - FLOAT
+  - FLOAT
+  - CHAR(32)
+  - MEDIUMINT
+  - CHAR(32)
+  - TINYINT
+  - CHAR(3)
+  - MEDIUMINT
+  - CHAR(8)
+  - INT
+  - SMALLINT
+  - CHAR(5)
+  - CHAR(9)

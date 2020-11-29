@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `{}`.`{}` (
 '''
 deadlock_msg = 'Deadlock found when trying to get lock'
 
-create_table_query: str
 
 def exception_is_retryable(error: Exception) -> bool:
     logger.debug(error)
@@ -36,8 +35,7 @@ def exception_is_retryable(error: Exception) -> bool:
          'Error' in error.response and
          'Code' in error.response['Error'] and
          'Message' in error.response['Error'] and
-         error.response['Error']['Code'] == 'BadRequestException' and
-         cold_start_err_msg in error.response['Error']['Message'] or deadlock_msg in error.response['Error']['Message']
+         error.response['Error']['Code'] == 'BadRequestException'
     ):
         return True
     return False
@@ -83,6 +81,19 @@ def create_insert_queries(line_list, schema, table_name, pid):
         if len(query) > INSERT_QUERY_SIZE:
             query_list.append(query)
             send_list = []
+    if send_list:
+        str_tups = [str(tup) for tup in send_list]
+        val_list_str = ','.join(str_tups)
+        insert_format = '''
+                    REPLACE INTO 
+                    `{}`.`{}`
+                    VALUES
+                    {{}}
+                    '''.format(schema, table_name)
+        query = insert_format.format(val_list_str)
+        query = query.replace("'NULL'", 'NULL')
+        query_list.append(query)
+
     return query_list
 
 
@@ -95,9 +106,10 @@ def get_create_table_query(column_names, column_types, schema, table_name, conf)
 
 
 def multi_process_files(file_paths, conf):
-    create_table_query = [sync_process_files(file_path, conf)[1] for file_path in file_paths][0]
+    #create_table_query = [sync_process_files(file_path, conf)[1] for file_path in file_paths][0]
     results = [sync_process_files(file_path, conf)[0] for file_path in file_paths]
     flattened_lines = [line for line_list in results for line in line_list]
+
     return flattened_lines
 
 
@@ -114,10 +126,11 @@ def sync_process_files(file_path, conf):
                 first_line = False
                 column_names = list(row.keys())
                 create_table_query = get_create_table_query(column_names, col_types, schema, table_name, conf)
+                print(create_table_query)
             else:
                 val_list = list(row.values())
-                ifields = [i for i in range(len(col_types)) if col_types[i] == 'INT']
-                dfields = [i for i in range(len(col_types)) if col_types[i] == 'DOUBLE']
+                ifields = [i for i in range(len(col_types)) if 'INT' in col_types[i]]
+                dfields = [i for i in range(len(col_types)) if col_types[i] == 'DOUBLE' or col_types[i] == 'FLOAT']
                 bfields = [i for i in range(len(col_types)) if col_types[i] == 'BOOL']
                 for ifield in ifields:
                     val_list[ifield] = int(val_list[ifield]) if val_list[ifield] else 'NULL'
@@ -169,16 +182,16 @@ async def run_all_queries(queries):
 
 def sync_run(conf: dict):
     start_time = time.time()
-    file_paths = conf['FILE_PATHS']
+    file_paths = conf['FILE_PATHS'][9:]
     schema = conf['SCHEMA_NAME']
     table_name = conf['TABLE_NAME']
     num_cores = mp.cpu_count()
-    num_files = len(file_paths)
     all_lines = read_files(num_cores, file_paths, conf)
     post_lines_time = time.time()
     logger.info('Processed reading lines in %s seconds', post_lines_time - start_time)
 
     qlist_procs = create_insert_tuples(num_cores, all_lines, schema, table_name)
+
     query_list_time = time.time()
     flattened_queries = [query for query_list in qlist_procs for query in query_list]
 

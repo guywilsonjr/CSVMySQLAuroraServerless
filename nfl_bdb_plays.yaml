@@ -2,6 +2,35 @@ FILE_PATHS:
   - '/home/guy/Downloads/nfl-big-data-bowl-2021/plays.csv'
 SCHEMA_NAME: 'bdb'
 TABLE_NAME: 'plays'
+COL_NAMES:
+  - gameId
+  - playId
+  - playdescription
+  - quarter
+  - down
+  - yardsToGo
+  - possesionTeam
+  - playType
+  - yardlineSide
+  - yardlineNumber
+  - offenseFormation
+  - personnelO
+  - defendersInTheBox
+  - numberOfPassRushers
+  - personnelD
+  - typeDropback
+  - preSnapVisitorScore
+  - preSnapHomeScore
+  - gameClock
+  - absoluteYardlineNumber
+  - penaltyCodes
+  - penaltyJerseyNumbers
+  - passResult
+  - offensePlayResult
+  - playResult
+  - epa
+  - isDefensivePI
+
 COL_TYPES:
   - VARCHAR(255)
   - VARCHAR(255)
